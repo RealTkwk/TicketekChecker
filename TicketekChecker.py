@@ -43,10 +43,18 @@ if __name__ == '__main__':
 
     emma, emma_pwd, mail_to, tktk_url, freq = load_settings('settings.cfg')
 
+    headers = {
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5)",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "accept-charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+        "accept-encoding": "gzip,deflate,sdch",
+        "accept-language": "en-US,en;q=0.8",
+    }
+
     while True:
         start = time()
 
-        r = requests.get(tktk_url)
+        r = requests.get(tktk_url, headers=headers)
 
         if 'artists-list-item-title' in r.text:
             runtime = time() - start
