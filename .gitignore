@@ -1,0 +1,11 @@
+*.json
+*.log
+*.cfg
+*.png
+*.pyc
+*.iml
+workspace.xml
+misc.xml
+*.xml
+.idea/workspace.xml
+*.xml
