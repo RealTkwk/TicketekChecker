@@ -1,3 +1,4 @@
+import re
 import smtplib
 import requests
 from smtplib import SMTPException
@@ -51,20 +52,29 @@ if __name__ == '__main__':
         "accept-language": "en-US,en;q=0.8",
     }
 
+    events = re.compile(
+        r'<a href=\"(?P<link>.*)\" title=\"(?P<nombre_int>.*)\" class=\"(?P<evento>artists-list-item-title)\">(?P<nombre_ext>.*)<\/a>',
+        re.I | re.M)
+
     while True:
         start = time()
 
         r = requests.get(tktk_url, headers=headers)
 
-        if 'artists-list-item-title' in r.text:
-            runtime = time() - start
+        scraped = events.findall(r.text)
 
+        if scraped:
+
+            runtime = time() - start
             log('Finally something on run {}. {:.2f}s'.format(runs, runtime))
 
-            if send_mail(emma, emma_pwd, mail_to, 'Partido de tenis!',
-                         'Aparecio un partido!!\nwww.ticketeck.com.ar/tenis \nNinos!'):
-                log('Email sent on run {}. {:.2f}s'.format(runs, runtime))
-                break
+            with open('past events.txt', 'r+')as f:
+                for event in scraped:
+                    if str(event) not in f:
+                        if send_mail(emma, emma_pwd, mail_to, 'Evento de tenis nuevo: {}'.format(event[3]),
+                                     '\nAparecio un partido!!\n\nwww.ticketek.com.ar{}/'.format(event[0])):
+                            log('Email sent on run {}. {:.2f}s'.format(runs, runtime))
+                        f.write(str(event))
         else:
             runtime = time() - start
             log('Nothing new on run {}. {:.2f}s'.format(runs, runtime))
