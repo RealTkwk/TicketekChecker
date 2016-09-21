@@ -66,11 +66,12 @@ if __name__ == '__main__':
         if scraped:
 
             runtime = time() - start
-            log('Finally something on run {}. {:.2f}s'.format(runs, runtime))
+            log('Already notified. Run {}. {:.2f}s'.format(runs, runtime))
 
             with open('past events.txt', 'r+')as f:
+                past_events = f.read()
                 for event in scraped:
-                    if str(event) not in f:
+                    if str(event) not in past_events:
                         if send_mail(emma, emma_pwd, mail_to, 'Evento de tenis nuevo: {}'.format(event[3]),
                                      '\nAparecio un partido!!\n\nwww.ticketek.com.ar{}/'.format(event[0])):
                             log('Email sent on run {}. {:.2f}s'.format(runs, runtime))
