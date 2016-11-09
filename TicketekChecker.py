@@ -73,7 +73,7 @@ if __name__ == '__main__':
                     if str(event) not in past_events:
                         if send_mail(emma, emma_pwd, mail_to, 'Evento de tenis nuevo: {}'.format(event[3]),
                                      '\nAparecio un partido!!\n\nwww.ticketek.com.ar{}/'.format(event[0])):
-                            log('Email sent on run {}. {:.2f}s'.format(runs, runtime))
+                            log('Email sent on run {}.'.format(runs))
                         f.write(str(event))
         else:
             log('Nothing new on run {}.'.format(runs))
