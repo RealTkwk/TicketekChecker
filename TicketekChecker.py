@@ -25,7 +25,7 @@ def send_mail(sender, pwd, to, subject, text):
                         '', text])
 
     try:
-        server.sendmail(sender, [to], body)
+        server.sendmail(sender, to, body)
     except SMTPException:
         server.quit()
         return False
@@ -42,7 +42,9 @@ if __name__ == '__main__':
 
     runs = 1
 
-    emma, emma_pwd, mail_to, tktk_url, freq = load_settings('settings.cfg')
+    emma, emma_pwd, recipients, tktk_url, freq = load_settings('settings.cfg')
+
+    mail_to = recipients.split(",")
 
     headers = {
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5)",
@@ -65,9 +67,6 @@ if __name__ == '__main__':
 
         if scraped:
 
-            runtime = time() - start
-            log('Already notified. Run {}. {:.2f}s'.format(runs, runtime))
-
             with open('past events.txt', 'r+')as f:
                 past_events = f.read()
                 for event in scraped:
@@ -77,7 +76,6 @@ if __name__ == '__main__':
                             log('Email sent on run {}. {:.2f}s'.format(runs, runtime))
                         f.write(str(event))
         else:
-            runtime = time() - start
             log('Nothing new on run {}. {:.2f}s'.format(runs, runtime))
 
         runs += 1
