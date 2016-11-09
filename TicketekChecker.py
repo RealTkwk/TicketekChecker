@@ -75,8 +75,8 @@ if __name__ == '__main__':
                                      '\nAparecio un partido!!\n\nwww.ticketek.com.ar{}/'.format(event[0])):
                             log('Email sent on run {}.'.format(runs))
                         f.write(str(event))
-        else:
-            log('Nothing new on run {}.'.format(runs))
+                    else:
+                        log('Nothing new on run {}.'.format(runs))
 
         runs += 1
         sleep(int(freq) * 3600)
