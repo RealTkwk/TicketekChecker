@@ -76,7 +76,7 @@ if __name__ == '__main__':
                             log('Email sent on run {}. {:.2f}s'.format(runs, runtime))
                         f.write(str(event))
         else:
-            log('Nothing new on run {}. {:.2f}s'.format(runs, runtime))
+            log('Nothing new on run {}.'.format(runs))
 
         runs += 1
-        sleep(int(freq) * 3600 - runtime)
+        sleep(int(freq) * 3600)
